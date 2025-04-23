@@ -42,20 +42,14 @@ Function Connect-DaaS{
     param(
 		[Parameter(Mandatory = $true)] [String]$customerId,
         [Parameter(Mandatory = $true)] [String]$citrixAPIKey,
-        [Parameter(Mandatory = $true)] [String]$secretKEY,
-		[Parameter(Mandatory = $true)] [String]$daaSProfile
+        [Parameter(Mandatory = $true)] [String]$secretKEY
     )
 	try{
-        # if a profile with the same name allready exist, the profile will be deleted
-		if ((get-xdcredentials -listprofile |out-null) | Where-Object ProfileName -eq $daaSProfile){ 
-			Clear-XDCredentials -ProfileName $daaSProfile |out-null
-		}
+        Clear-XDCredentials |out-null
         # create the connection profile
-        set-XDCredentials -CustomerId $customerId -APIKey $citrixAPIKey -SecretKey $secretKEY -ProfileType CloudApi -StoreAs $daaSProfile |out-null
+        set-XDCredentials -CustomerId $customerId -APIKey $citrixAPIKey -SecretKey $secretKEY -ProfileType CloudApi |out-null
         #connect to the profile
-		Get-XDAuthentication -ProfileName $daaSProfile |out-null
-        #deleting the profile to enhance security
-        Clear-XDCredentials -ProfileName $daaSProfile |out-null
+		Get-XDAuthentication  |out-null
         return @{Level='Success';Message="$($MyInvocation.MyCommand.Name) :Successfully connected to Citrix Cloud"}
     }
     catch {

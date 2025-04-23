@@ -47,7 +47,7 @@ param(
             $customerId = $secret.customerId    
             $citrixAPIKey = $secret.citrixAPIKey
             $secretKey = $secret.secretKEY
-            $result = Connect-DaaS -customerId $customerId -citrixAPIKey $citrixAPIKey -secretKEY $secretKey -DaaSProfile 'DB'
+            $result = Connect-DaaS -customerId $customerId -citrixAPIKey $citrixAPIKey -secretKEY $secretKey
             #add the log entry to the log file
             add-LogEntry -logEntry $result -logfile $logFile
             if ($result.level -eq 'Error') {exit}
