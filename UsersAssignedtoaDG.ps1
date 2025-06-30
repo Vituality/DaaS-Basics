@@ -54,7 +54,7 @@ param(
             if ($result.level -eq 'Error') {exit}
     }
 if (-NOT $PSBoundParameters.ContainsKey('deliveryGroup')){
-        $machines = Get-BrokerMachine -MaxRecordCount 100000 |Where-Object {$_.DesktopGroupName -eq $DeliveryGroupName}
+        $machines = Get-BrokerMachine -MaxRecordCount 100000
     }
 else{
         $machines = Get-BrokerMachine -MaxRecordCount 100000 |Where-Object {$_.DesktopGroupName -eq $DeliveryGroupName}
