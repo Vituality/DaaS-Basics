@@ -60,8 +60,8 @@ else{
         $machines = Get-BrokerMachine -MaxRecordCount 50000 |Where-Object {$_.DesktopGroupName -eq $DeliveryGroupName}
 }
 
-$machines |where-object {$_.Allocationtype -eq 'static'} |select machinename,AssociatedUserNames,DesktopGroupName
-
+$result = $machines |where-object {$_.Allocationtype -eq 'static'} |select machinename,AssociatedUserNames,DesktopGroupName
+$result |out-gridview
 #-------------------------------
 #  disconnecting from Citrix DaaS
 #-------------------------------
