@@ -1,8 +1,16 @@
 
-# secret.csv file syntax
-# customerId,citrixAPIKey,secretKey
-#########,######-#####-####-####-############,######################
+<#
+ secret.csv file syntax:
+        customerId,citrixAPIKey,secretKey
+        #########,######-#####-####-####-############,######################
 
+        retrieve users assigned to all machines in a delivery Group.
+Example:
+UsersAssignedtoaDG.ps1 -secretpath 'c:\temp\secureapi.csv' -deliverygroup 'DeliveryGroupFolder\deliverygorupname'
+
+secretpath his a csv file in this format: customerId,citrixAPIKey,secretKey. If this is not present, user will have to logon explicitly.
+deliverygroup is a complete name of a Delivery group to look for (name & folder hierarchy). If not present, the script will look in every delivery Groups.
+#>
 
 param(
     [Parameter(Mandatory = $false)] [string]$secretPath, # csv file in this format: customerId,citrixAPIKey,secretKey. If this is not present, user will have to logon explicitely
@@ -17,7 +25,7 @@ param(
                 # Create log file
                         $logDir = $Scriptpath+'\Logs'
                         if ((test-path $logDir) -ne "True") {$null = New-Item $Scriptpath\Logs -Type Directory}
-                        $logFile  =  Join-Path $logDir ("CloneCatalog_$($hostname)_$(get-date -format yyyy-MM-dd-hh-mm).log")
+                        $logFile  =  Join-Path $logDir ("UserAssigned_$($hostname)_$(get-date -format yyyy-MM-dd-hh-mm).log")
                 # Import Modules
                         try{
                             Import-Module $Scriptpath\Modules\General.psm1 -Force
@@ -60,7 +68,7 @@ else{
         $machines = Get-BrokerMachine -MaxRecordCount 100000 |Where-Object {$_.DesktopGroupName -eq $DeliveryGroupName}
 }
 
-$result = $machines |where-object {$_.Allocationtype -eq 'static'} |select machinename,AssociatedUserNames,DesktopGroupName
+$result = $machines |where-object {$_.Allocationtype -eq 'static'} |select-object machinename,AssociatedUserNames,DesktopGroupName
 $result |out-gridview
 #-------------------------------
 #  disconnecting from Citrix DaaS

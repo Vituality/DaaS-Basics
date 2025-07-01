@@ -16,7 +16,7 @@ param(
                 # Create log file
                         $logDir = $Scriptpath+'\Logs'
                         if ((test-path $logDir) -ne "True") {$null = New-Item $Scriptpath\Logs -Type Directory}
-                        $logFile  =  Join-Path $logDir ("CloneCatalog_$($hostname)_$(get-date -format yyyy-MM-dd-hh-mm).log")
+                        $logFile  =  Join-Path $logDir ("ConnectDaaS_$($hostname)_$(get-date -format yyyy-MM-dd-hh-mm).log")
                 # Import Modules
                         try{
                             Import-Module $Scriptpath\Modules\General.psm1 -Force
